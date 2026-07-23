@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uniform Gallery - School Uniforms & Fancy Costumes</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #004274;
+            --primary-dark: #002b4d;
+            --secondary: #e63946;
+            --accent: #f4a261;
+            --bg-light: #f8f9fa;
+            --text-dark: #2b2d42;
+            --text-light: #6c757d;
+            --border: #e0e0e0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary-dark);
+            color: white;
+            font-size: 0.85rem;
+            padding: 8px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-info a {
+            color: white;
+            text-decoration: none;
+            margin-right: 15px;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .top-bar-info a:hover {
+            color: var(--accent);
+        }
+
+        .top-bar-info i {
+            color: var(--accent);
+            margin-right: 5px;
+        }
+
+        /* Main Header */
+        header {
+            background: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .logo h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .search-bar {
+            display: flex;
+            width: 40%;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid var(--primary);
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            outline: none;
+        }
+
+        .search-bar button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .search-bar button:hover {
+            background: var(--secondary);
+        }
+
+        /* Navigation Menu */
+        nav {
+            background-color: var(--primary);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            padding: 0 5%;
+        }
+
+        .nav-links > li {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links > li:hover > a {
+            background-color: var(--secondary);
+        }
+
+        /* Dropdown Menu */
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 240px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            list-style: none;
+            border-top: 3px solid var(--secondary);
+        }
+
+        .dropdown li a {
+            color: var(--text-dark);
+            padding: 12px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .dropdown li a:hover {
+            background: #f1f1f1;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .nav-links li:hover .dropdown {
+            display: block;
+        }
+
+        /* HERO SLIDESHOW CONTAINER */
+        .hero {
+            position: relative;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            text-align: center;
+            color: white;
+        }
+
+        /* Background Slide Images */
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            z-index: 1;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(88, 28, 135, 0.65), rgba(225, 29, 72, 0.6), rgba(234, 88, 12, 0.55));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            padding: 0 20px;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.6);
+        }
+
+        .hero-content h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-content p {
+            font-size: 1.35rem;
+            max-width: 720px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
+        .hero-dots {
+            position: absolute;
+            bottom: 20px;
+            z-index: 4;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+
+        /* Catalog Layout */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        .section-header {
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            scroll-margin-top: 80px;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        /* Active Filter Indicator Badge */
+        .filter-badge {
+            background: var(--secondary);
+            color: white;
+            font-size: 0.85rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-badge i {
+            cursor: pointer;
+        }
+
+        /* No Results Message */
+        #no-results {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+
+        #no-results h3 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        /* Product Cards Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            scroll-margin-top: 90px;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .gallery-container {
+            position: relative;
+            background: #fafafa;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .main-img-wrap {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .main-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-container:hover .main-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .zoom-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 43, 77, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            gap: 8px;
+        }
+
+        .gallery-container:hover .zoom-overlay {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .school-tag {
+            font-size: 0.75rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .price-inquiry {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: auto;
+        }
+
+        .btn-inquire {
+            background-color: var(--secondary);
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-inquire:hover {
+            background-color: #c92a37;
+        }
+
+        /* LIGHTBOX MODAL STYLES WITH IMAGE MAGNIFIER */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.88);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--secondary);
+        }
+
+        .modal-image-container {
+            flex: 1.2;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .magnifier-wrapper {
+            position: relative;
+            display: inline-block;
+            cursor: crosshair;
+        }
+
+        .magnifier-wrapper img {
+            max-width: 100%;
+            max-height: 75vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        .magnifier-glass {
+            position: absolute;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            cursor: crosshair;
+            width: 150px;
+            height: 150px;
+            display: none;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            pointer-events: none;
+            background-repeat: no-repeat;
+            z-index: 99;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 12px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .modal-details {
+            flex: 1;
+            padding: 30px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow-y: auto;
+        }
+
+        .modal-tag {
+            font-size: 0.8rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        .modal-description {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        /* About Us Styling */
+        .about-section {
+            background: white;
+            padding: 50px 5%;
+            margin: 40px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            scroll-margin-top: 80px;
+        }
+
+        .about-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .about-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .about-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--secondary);
+            margin: 0 auto 20px;
+        }
+
+        .about-intro {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: var(--bg-light);
+            padding: 25px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 40px 5% 20px;
+            scroll-margin-top: 80px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .footer-col p, .footer-col ul li {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: #d0d0d0;
+        }
+
+        .footer-col a {
+            color: #d0d0d0;
+            text-decoration: none;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .search-bar { width: 100%; }
+            .nav-links { flex-direction: column; }
+            .dropdown { position: static; box-shadow: none; }
+
+            .hero { height: 300px; }
+            .hero-content h2 { font-size: 2.2rem; }
+
+            .modal-content {
+                flex-direction: column;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            .modal-image-container {
+                height: 300px;
+                flex: none;
+            }
+
+            .modal-details {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+        <div class="top-bar-info">
+            <a href="tel:+918124437084"><i class="fa-solid fa-phone"></i> +91 8124437084</a>
+            <a onclick="openEmail()"><i class="fa-solid fa-envelope"></i> ptprathik@gmail.com</a>
+        </div>
+        <div>
+            <span><i class="fa-solid fa-truck"></i> Bulk & Individual School Orders</span>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER -->
+    <header>
+        <div class="logo" onclick="resetSearch()">
+            <h1>Uniform <span>Gallery</span></h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search school name, uniform size, fancy dress..." onkeyup="handleSearchKey(event)">
+            <button onclick="executeSearch()"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </header>
+
+    <!-- NAVIGATION MENU -->
+    <nav>
+        <ul class="nav-links">
+            <li><a href="#home" onclick="resetSearch()">Home</a></li>
+            <li>
+                <a href="#schools" onclick="resetSearch('schools')">School Uniforms <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a onclick="filterCategory('dav', 'DAV Public School', 'schools')">DAV Public School</a></li>
+                    <li><a onclick="filterCategory('dps', 'Delhi Public School', 'schools')">Delhi Public School</a></li>
+                    <li><a onclick="filterCategory('general', 'General Uniforms', 'schools')">General Shirts & Trousers</a></li>
+                    <li><a onclick="filterCategory('sports', 'Sports & House Uniforms', 'schools')">Sports & House Uniforms</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#costumes" onclick="resetSearch('costumes')">Fancy Costumes <i class="fa-solid fa-chevron-down" style="font-size:0.7rem;"></i></a>
+                <ul class="dropdown">
+                    <li><a onclick="filterCategory('animal', 'Animals & Birds Costumes', 'costumes')">Animals & Birds Costumes</a></li>
+                    <li><a onclick="filterCategory('helper', 'Community Helpers', 'costumes')">Community Helpers & Professions</a></li>
+                    <li><a onclick="filterCategory('cultural', 'Cultural & Stage Attire', 'costumes')">Cultural & Dance Attire</a></li>
+                </ul>
+            </li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact & Inquiry</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SLIDESHOW -->
+    <section class="hero" id="home">
+        <div class="hero-slide active" style="background-image: url('https://images.unsplash.com/photo-1577896851231-70ef18881754?w=1600');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1511556532299-8f662fc26c06?w=1600');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=1600');"></div>
+        <div class="hero-slide" style="background-image: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1600');"></div>
+
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <h2>Your Trusted Uniform & Costume Partner</h2>
+            <p>Providing high-quality school uniforms and vibrant fancy dresses for all events.</p>
+        </div>
+
+        <div class="hero-dots">
+            <span class="dot active" onclick="setSlide(0)"></span>
+            <span class="dot" onclick="setSlide(1)"></span>
+            <span class="dot" onclick="setSlide(2)"></span>
+            <span class="dot" onclick="setSlide(3)"></span>
+        </div>
+    </section>
+
+    <!-- CATALOG CONTAINER -->
+    <div class="container">
+
+        <!-- NO RESULTS MESSAGE -->
+        <div id="no-results">
+            <h3>No Matching Products Found</h3>
+            <p>Try searching for "DAV", "Crow", "Leopard", "Parrot", "Farmer", or "Nurse".</p>
+            <button onclick="resetSearch()" style="margin-top: 15px; padding: 8px 16px; background: var(--primary); color: white; border: none; border-radius: 4px; cursor: pointer;">Show All Items</button>
+        </div>
+
+        <!-- SECTION 1: SCHOOL UNIFORMS -->
+        <div class="section-header catalog-section-header" id="schools">
+            <h2>School Uniform Collection</h2>
+            <span id="school-filter-badge" class="filter-badge">
+                <span id="school-filter-label"></span>
+                <i class="fa-solid fa-xmark" onclick="resetSearch('schools')"></i>
+            </span>
+        </div>
+
+        <div class="product-grid" id="schools-grid">
+
+            <!-- Item 1: DAV Senior Set -->
+            <div class="product-card" data-category="dav">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dav boys and girls_2.jpg" alt="DAV Senior Boys & Girls Uniform">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">DAV Public School</span>
+                    <h3 class="product-title">Senior Boys & Girls Regular Set</h3>
+                    <p class="product-desc">Standard light blue logo shirt paired with dark grey trousers/skirt, belt, and striped black socks.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('DAV Senior Boys & Girls Regular Set')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 2: DAV Junior Boys Set -->
+            <div class="product-card" data-category="dav">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dav jr boys_3.jpg" alt="DAV Junior Boys Uniform">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">DAV Public School</span>
+                    <h3 class="product-title">Junior Boys Polo & Shorts Set</h3>
+                    <p class="product-desc">Light blue collared polo t-shirt with navy blue shorts and matching striped socks.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('DAV Junior Boys Polo & Shorts Set')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 3: DAV Girls Samiz -->
+            <div class="product-card" data-category="dav">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dav samiz_2.jpg" alt="DAV Girls Samiz Kurti Set">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">DAV Public School</span>
+                    <h3 class="product-title">Girls Samiz Kurti & Trouser Set</h3>
+                    <p class="product-desc">Light blue high-neck collared samiz top with embroidered DAV logo paired with charcoal grey trousers.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('DAV Girls Samiz Kurti & Trouser Set')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 4: DAV Winter Hoodie -->
+            <div class="product-card" data-category="dav">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dav winter hoodie_3.jpg" alt="DAV Winter Fleece Sweatshirt Set">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">DAV Public School</span>
+                    <h3 class="product-title">Winter Collared Sweatshirt & Tracksuit</h3>
+                    <p class="product-desc">Full-sleeve warm fleece collar sweatshirt with front pocket and matching side-stripe track pants.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('DAV Winter Collared Sweatshirt & Tracksuit')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 5: DAV Winter Tracksuit -->
+            <div class="product-card" data-category="dav">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dav winter tracksuit_2.jpg" alt="DAV School Winter Tracksuit">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">DAV Public School</span>
+                    <h3 class="product-title">Winter Tracksuit Set (Fleece)</h3>
+                    <p class="product-desc">Heavyweight wind-resistant fleece tracksuit designed for winter cold protection and everyday comfort.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('DAV Winter Tracksuit Set (Fleece)')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Item 6: Sports & House PT Uniform -->
+            <div class="product-card" data-category="sports">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="pt uniform.jpg" alt="Sports and House PT Uniform">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Sports & House Uniform</span>
+                    <h3 class="product-title">House & Sports PT Uniform Set</h3>
+                    <p class="product-desc">Dual-tone sky blue and navy blue short-sleeve polo jersey with matching side-striped sports skirt/shorts.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('House & Sports PT Uniform Set')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Inquire Price
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SECTION 2: FANCY COSTUMES & DRESSES -->
+        <div class="section-header catalog-section-header" id="costumes">
+            <h2>Fancy Costumes Collection</h2>
+            <span id="costume-filter-badge" class="filter-badge">
+                <span id="costume-filter-label"></span>
+                <i class="fa-solid fa-xmark" onclick="resetSearch('costumes')"></i>
+            </span>
+        </div>
+
+        <div class="product-grid" id="costumes-grid">
+
+            <!-- Costume 1: Black Crow Dress -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="crow dress.jpg" alt="Kids Crow Bird Fancy Dress Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Bird Fancy Dress</span>
+                    <h3 class="product-title">Black Crow / Raven Bird Costume</h3>
+                    <p class="product-desc">All-black velvet jumpsuit with attached wings and a hooded bird beak headpiece. Perfect for school plays and stage shows.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Black Crow / Raven Bird Costume')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 2: Dragon Dress -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="dragon dress.jpg" alt="Kids Dragon Crocodile Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Fantasy & Animal Dress</span>
+                    <h3 class="product-title">Green Dragon / Crocodile Onesie</h3>
+                    <p class="product-desc">Vibrant bright green and yellow front jumpsuit featuring a plush snout character hood. Fun and lightweight fabric.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Green Dragon / Crocodile Onesie Costume')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 3: Farmer Dress -->
+            <div class="product-card" data-category="helper">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="farmer dress.jpg" alt="Indian Farmer Kids Costume Set">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Community Helper / Traditional</span>
+                    <h3 class="product-title">Indian Farmer (Kisan) Dress Set</h3>
+                    <p class="product-desc">Complete outfit set including a red checked shirt, traditional white dhoti, waist tie band, and matching red turban cloth.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Indian Farmer (Kisan) Dress Set')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 4: White Jatayu / Eagle Dress -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="jatayu dress.jpg" alt="Kids White Jatayu Eagle Bird Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Mythological & Bird Dress</span>
+                    <h3 class="product-title">White Jatayu / Eagle Bird Costume</h3>
+                    <p class="product-desc">Pristine white bird jumpsuit with wing flaps and attached hood complete with a yellow beak. Ideal for mythological plays and Ramayan skits.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('White Jatayu / Eagle Bird Costume')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 5: Leopard Dress -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="leopard dress.jpg" alt="Kids Spotted Leopard Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Wild Animal Dress</span>
+                    <h3 class="product-title">Spotted Leopard / Cheetah Onesie</h3>
+                    <p class="product-desc">Full-body leopard print plush jumpsuit with front zip closure and 3D stuffed animal face hood with ears.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Spotted Leopard / Cheetah Onesie')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 6: Nurse Dress -->
+            <div class="product-card" data-category="helper">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="nurse dress.jpg" alt="Kids Medical Nurse Uniform Dress">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Profession & Helpers</span>
+                    <h3 class="product-title">Medical Nurse Roleplay Uniform</h3>
+                    <p class="product-desc">White nurse tunic dress with red cross accents, nurse cap, stethoscope accessory, syringe prop, and face mask.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Medical Nurse Roleplay Uniform')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 7: Parrot Dress -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="parrot dress.jpg" alt="Kids Green Parrot Bird Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Bird Fancy Dress</span>
+                    <h3 class="product-title">Bright Green Parrot Bird Costume</h3>
+                    <p class="product-desc">Eye-catching parrot suit with red chest patch, wing sleeves, and a hooded headpiece with red beak.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Bright Green Parrot Bird Costume')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Costume 8: Spotted Deer -->
+            <div class="product-card" data-category="animal">
+                <div class="gallery-container" onclick="openLightbox(this)">
+                    <div class="main-img-wrap">
+                        <img src="deer.jpg" alt="Kids Deer Fancy Dress Costume">
+                    </div>
+                    <div class="zoom-overlay">
+                        <i class="fa-solid fa-magnifying-glass-plus"></i> Click to Enlarge & Zoom
+                    </div>
+                </div>
+                <div class="product-info">
+                    <span class="school-tag">Kids Animal Fancy Dress</span>
+                    <h3 class="product-title">Spotted Deer / Reindeer Animal Onesie</h3>
+                    <p class="product-desc">Soft plush spotted deer jumpsuit featuring an attached hood with ears and horns. Ideal for school fancy dress and annual functions.</p>
+                    <div class="price-inquiry">
+                        <button onclick="sendEnquiry('Spotted Deer / Reindeer Animal Onesie Costume')" class="btn-inquire">
+                            <i class="fa-brands fa-whatsapp"></i> Rent / Buy
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ABOUT US SECTION -->
+    <section class="about-section" id="about">
+        <div class="about-container">
+            <div class="about-header">
+                <h2>About Uniform Gallery</h2>
+                <div class="about-divider"></div>
+            </div>
+            
+            <p class="about-intro">
+                Uniform Gallery is your one-stop destination for complete school attire and event dress solutions. We specialize in providing high-quality, durable, and perfectly fitted uniforms tailored for top educational institutions as well as creative costumes for all occasions.
+            </p>
+
+            <div class="about-features">
+                <div class="feature-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>Premium Fabrics</h3>
+                    <p>Breathable, durable, and easy-to-maintain materials designed specifically for active daily school wear.</p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-shirt"></i>
+                    <h3>Wide Selection</h3>
+                    <p>Complete school shirts, trousers, skirts, house sports PT gear, tracksuits, and winter hoodies.</p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-masks-theater"></i>
+                    <h3>Fancy Costumes</h3>
+                    <p>A broad collection of animal onesies, birds, community helpers, and character costumes available for rent or purchase.</p>
+                </div>
+
+                <div class="feature-card">
+                    <i class="fa-solid fa-boxes-packing"></i>
+                    <h3>Bulk & Retail</h3>
+                    <p>Exceptional personal service whether you are buying a single set for your child or placing a school-wide bulk order.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL WITH MAGNIFIER LENS -->
+    <div id="lightbox-modal" class="modal-overlay" onclick="closeLightbox(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeLightbox(event)">&times;</button>
+            
+            <div class="modal-image-container">
+                <div class="magnifier-wrapper" id="magnifier-wrapper">
+                    <img id="modal-img" src="" alt="Enlarged view">
+                    <div id="magnifier-glass" class="magnifier-glass"></div>
+                </div>
+                <div class="zoom-hint">
+                    <i class="fa-solid fa-magnifying-glass"></i> Hover image to zoom fabric details
+                </div>
+            </div>
+
+            <div class="modal-details">
+                <div>
+                    <span id="modal-tag" class="modal-tag"></span>
+                    <h2 id="modal-title" class="modal-title"></h2>
+                    <p id="modal-desc" class="modal-description"></p>
+                </div>
+                <button id="modal-inquire-btn" class="btn-inquire">
+                    <i class="fa-brands fa-whatsapp"></i> Inquire on WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Uniform Gallery</h3>
+                <p>Your one-stop destination for quality school uniforms, sportswear, winter collection, and vibrant fancy dresses.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home" onclick="resetSearch()">Home</a></li>
+                    <li><a href="#schools" onclick="resetSearch('schools')">School Uniforms</a></li>
+                    <li><a href="#costumes" onclick="resetSearch('costumes')">Fancy Costumes</a></li>
+                    <li><a href="#about">About Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p>
+                    <i class="fa-solid fa-phone"></i> 
+                    <a href="tel:+918124437084" style="color: #d0d0d0; text-decoration: none;">
+                        +91 8124437084
+                    </a>
+                </p>
+                <p>
+                    <i class="fa-solid fa-envelope"></i> 
+                    <a onclick="openEmail()" style="color: #d0d0d0; text-decoration: none;">
+                        ptprathik@gmail.com
+                    </a>
+                </p>
+                <p>
+                    <i class="fa-solid fa-location-dot"></i> 
+                    Machhligali, opposite Christ Church School, Congress Maidan, Kadam Kuan, Patna 800003
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Uniform Gallery. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DROPDOWN NAVIGATION & FILTER SYSTEM ---
+        function filterCategory(categoryKey, displayName, targetSectionId) {
+            // Clear general text search
+            document.getElementById('search-input').value = '';
+            document.getElementById('no-results').style.display = 'none';
+
+            let targetGridId = targetSectionId === 'schools' ? 'schools-grid' : 'costumes-grid';
+            let grid = document.getElementById(targetGridId);
+            let cards = grid.querySelectorAll('.product-card');
+            let found = 0;
+
+            cards.forEach(card => {
+                if (card.dataset.category === categoryKey) {
+                    card.style.display = 'flex';
+                    found++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update badge UI
+            if (targetSectionId === 'schools') {
+                document.getElementById('school-filter-label').innerText = 'Filter: ' + displayName;
+                document.getElementById('school-filter-badge').style.display = 'inline-flex';
+            } else {
+                document.getElementById('costume-filter-label').innerText = 'Filter: ' + displayName;
+                document.getElementById('costume-filter-badge').style.display = 'inline-flex';
+            }
+
+            // Scroll smoothly to section header
+            const targetElement = document.getElementById(targetSectionId);
+            if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            // If no matching items, show no results notification
+            if (found === 0) {
+                document.getElementById('no-results').style.display = 'block';
+            }
+        }
+
+
+        // --- HERO SLIDESHOW ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const dots = document.querySelectorAll('.dot');
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active');
+            });
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function setSlide(index) {
+            showSlide(index);
+            resetSlideTimer();
+        }
+
+        function resetSlideTimer() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 3500);
+        }
+
+        resetSlideTimer();
+
+
+        // Email Trigger
+        function openEmail() {
+            const email = "ptprathik@gmail.com";
+            const subject = encodeURIComponent("Inquiry from Uniform Gallery Website");
+            const body = encodeURIComponent("Hello Uniform Gallery team,\n\nI would like to inquire about...");
+
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            } else {
+                window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${email}&su=${subject}&body=${body}`, '_blank');
+            }
+        }
+
+        // WhatsApp Enquiry Function
+        function sendEnquiry(productName) {
+            const phoneNumber = "918124437084";
+            const message = `Hello Uniform Gallery, I would like to inquire about: ${productName}`;
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Lightbox Modal Functions
+        function openLightbox(cardContainer) {
+            const card = cardContainer.closest('.product-card');
+            const imgSrc = card.querySelector('img').src;
+            const tag = card.querySelector('.school-tag').innerText;
+            const title = card.querySelector('.product-title').innerText;
+            const desc = card.querySelector('.product-desc').innerText;
+
+            const modalImg = document.getElementById('modal-img');
+            modalImg.src = imgSrc;
+            document.getElementById('modal-tag').innerText = tag;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+
+            const inquireBtn = document.getElementById('modal-inquire-btn');
+            inquireBtn.onclick = function() {
+                sendEnquiry(title);
+            };
+
+            document.getElementById('lightbox-modal').style.display = 'flex';
+            
+            modalImg.onload = function() {
+                initMagnifier('modal-img', 'magnifier-glass', 2.2);
+            };
+        }
+
+        function closeLightbox(event) {
+            document.getElementById('lightbox-modal').style.display = 'none';
+            document.getElementById('magnifier-glass').style.display = 'none';
+        }
+
+        // --- IMAGE MAGNIFIER LENS ---
+        function initMagnifier(imgID, glassID, zoomLevel) {
+            const img = document.getElementById(imgID);
+            const glass = document.getElementById(glassID);
+            const wrapper = document.getElementById('magnifier-wrapper');
+
+            glass.style.backgroundImage = "url('" + img.src + "')";
+            glass.style.backgroundRepeat = "no-repeat";
+
+            function moveMagnifier(e) {
+                e.preventDefault();
+                const pos = getCursorPos(e);
+                let x = pos.x;
+                let y = pos.y;
+
+                const w = glass.offsetWidth / 2;
+                const h = glass.offsetHeight / 2;
+
+                if (x > img.width - (w / zoomLevel)) { x = img.width - (w / zoomLevel); }
+                if (x < w / zoomLevel) { x = w / zoomLevel; }
+                if (y > img.height - (h / zoomLevel)) { y = img.height - (h / zoomLevel); }
+                if (y < h / zoomLevel) { y = h / zoomLevel; }
+
+                glass.style.left = (x - w) + "px";
+                glass.style.top = (y - h) + "px";
+
+                glass.style.backgroundSize = (img.width * zoomLevel) + "px " + (img.height * zoomLevel) + "px";
+                glass.style.backgroundPosition = "-" + ((x * zoomLevel) - w) + "px -" + ((y * zoomLevel) - h) + "px";
+            }
+
+            function getCursorPos(e) {
+                let a = img.getBoundingClientRect();
+                let x = 0, y = 0;
+                e = e || window.event;
+                x = e.pageX - a.left - window.pageXOffset;
+                y = e.pageY - a.top - window.pageYOffset;
+                return {x: x, y: y};
+            }
+
+            wrapper.onmousemove = function(e) {
+                glass.style.display = "block";
+                moveMagnifier(e);
+            };
+
+            wrapper.onmouseleave = function() {
+                glass.style.display = "none";
+            };
+
+            wrapper.ontouchstart = function(e) {
+                glass.style.display = "block";
+                moveMagnifier(e.touches[0]);
+            };
+
+            wrapper.ontouchmove = function(e) {
+                moveMagnifier(e.touches[0]);
+            };
+
+            wrapper.ontouchend = function() {
+                glass.style.display = "none";
+            };
+        }
+
+        // Global Search
+        function executeSearch() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.product-card');
+            let foundCount = 0;
+
+            // Hide badges when performing global text search
+            document.getElementById('school-filter-badge').style.display = 'none';
+            document.getElementById('costume-filter-badge').style.display = 'none';
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (text.includes(query)) {
+                    card.style.display = 'flex';
+                    foundCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const noResults = document.getElementById('no-results');
+            const sectionHeaders = document.querySelectorAll('.catalog-section-header');
+
+            if (foundCount === 0) {
+                noResults.style.display = 'block';
+                sectionHeaders.forEach(h => h.style.display = 'none');
+            } else {
+                noResults.style.display = 'none';
+                sectionHeaders.forEach(h => h.style.display = 'flex');
+            }
+        }
+
+        function handleSearchKey(event) {
+            if (event.key === 'Enter') {
+                executeSearch();
+            } else if (document.getElementById('search-input').value === '') {
+                resetSearch();
+            }
+        }
+
+        function resetSearch(targetSectionId) {
+            document.getElementById('search-input').value = '';
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => card.style.display = 'flex');
+            
+            document.getElementById('no-results').style.display = 'none';
+            document.getElementById('school-filter-badge').style.display = 'none';
+            document.getElementById('costume-filter-badge').style.display = 'none';
+            
+            const sectionHeaders = document.querySelectorAll('.catalog-section-header');
+            sectionHeaders.forEach(h => h.style.display = 'flex');
+
+            if (targetSectionId) {
+                const targetElement = document.getElementById(targetSectionId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }
+    </script>
+</body>
+</html>
